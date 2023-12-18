@@ -1,6 +1,6 @@
 Analysis of Machine Learning Model Performances on detecting the difficulty level of French texts
 
-In our project aimed at predicting the difficulty level of French texts, we evaluated four different machine learning models: Logistic Regression, kNN (k-Nearest Neighbors), Decision Tree, and Random Forests. After finding the best parameters fo each model, the performance of these models was measured in terms of precision, recall, F1-score, and accuracy. The results are displayed in the file 'final_report.pdf', which includes the Model Performances, Best Parameters for Each Model, and comparison graphics for the four models based on Precision, Recall, F1-Score, and Accuracy.
+In our project aimed at predicting the difficulty level of French texts, we evaluated four different machine learning models: Logistic Regression, kNN (k-Nearest Neighbors), Decision Tree, and Random Forests. After finding the best parameters fo each model, the performance of these models was measured in terms of precision, recall, F1-score, and accuracy. The results are displayed in the file 'final_report.pdf', which includes the Model Performances, Best Parameters for Each Model, and comparison graphics for the four models based on Precision, Recall, F1-Score, and Accuracy. We can also observe the confusions matrix for each model in the file "Model Confusion Matrices.pdf".
 
 Based on the results, we can observe that :
 
