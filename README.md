@@ -2,32 +2,44 @@ Analysis of Machine Learning Model Performances on detecting the difficulty leve
 
 In our project aimed at predicting the difficulty level of French texts, we evaluated four different machine learning models: Logistic Regression, kNN (k-Nearest Neighbors), Decision Tree, and Random Forests. The performance of these models was measured in terms of precision, recall, F1-score, and accuracy. Here is a detailed analysis of the results:
 
-Logistic Regression
+
+Logistic Regression :
+
 Precision: 0.403
 Recall: 0.409
 F1-Score: 0.402
 Accuracy: 0.409
+
 Logistic Regression showed moderate performance with a slight preference for recall over precision. This indicates that the model is slightly better at correctly identifying positive classes but at the cost of increased false positives.
 
-k-Nearest Neighbors (kNN)
+
+k-Nearest Neighbors (kNN) :
+
 Precision: 0.401
 Recall: 0.292
 F1-Score: 0.240
 Accuracy: 0.292
+
 The kNN model exhibited lower performance, particularly in terms of recall and F1-score. This suggests that the model struggles to correctly identify positive classes, which could be due to an imbalance in class distribution or poor neighbor selection.
 
-Decision Tree
+
+Decision Tree :
+
 Precision: 0.289
 Recall: 0.294
 F1-Score: 0.289
 Accuracy: 0.294
+
 The Decision Tree showed the weakest performance among the tested models. With relatively low scores across all metrics, this might indicate overfitting to the training data or an inability to capture the complexity of the data.
 
-Random Forests
+
+Random Forests :
+
 Precision: 0.372
 Recall: 0.379
 F1-Score: 0.359
 Accuracy: 0.379
+
 Random Forests displayed slightly better performance than Logistic Regression and significantly better than kNN and Decision Tree. This model seems to offer a better balance between precision and recall, suggesting better generalization compared to the other models.
 
 Conclusion
