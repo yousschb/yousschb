@@ -1,0 +1,78 @@
+<html><body>
+<h1>Model Performance Report</h1>
+<h2>Model Performances</h2>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Model</th>
+      <th>Precision</th>
+      <th>Recall</th>
+      <th>F1-Score</th>
+      <th>Accuracy</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Logistic Regression</td>
+      <td>0.403113</td>
+      <td>0.409375</td>
+      <td>0.402144</td>
+      <td>0.409375</td>
+    </tr>
+    <tr>
+      <td>kNN</td>
+      <td>0.400995</td>
+      <td>0.291667</td>
+      <td>0.239532</td>
+      <td>0.291667</td>
+    </tr>
+    <tr>
+      <td>Decision Tree</td>
+      <td>0.289037</td>
+      <td>0.293750</td>
+      <td>0.289431</td>
+      <td>0.293750</td>
+    </tr>
+    <tr>
+      <td>Random Forests</td>
+      <td>0.371611</td>
+      <td>0.379167</td>
+      <td>0.359221</td>
+      <td>0.379167</td>
+    </tr>
+  </tbody>
+</table><h2>Best Parameters for Each Model</h2>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Model</th>
+      <th>Best Parameters</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Logistic Regression</td>
+      <td>LogisticRegression(C=1, max_iter=1000, solver='liblinear')</td>
+    </tr>
+    <tr>
+      <td>kNN</td>
+      <td>KNeighborsClassifier(n_neighbors=9)</td>
+    </tr>
+    <tr>
+      <td>Decision Tree</td>
+      <td>DecisionTreeClassifier(max_depth=30)</td>
+    </tr>
+    <tr>
+      <td>Random Forests</td>
+      <td>RandomForestClassifier(max_depth=20, n_estimators=300)</td>
+    </tr>
+  </tbody>
+</table><h2>Precision Comparison</h2>
+<img src="Precision_comparison.png" width="600"><br>
+<h2>Recall Comparison</h2>
+<img src="Recall_comparison.png" width="600"><br>
+<h2>F1-Score Comparison</h2>
+<img src="F1-Score_comparison.png" width="600"><br>
+<h2>Accuracy Comparison</h2>
+<img src="Accuracy_comparison.png" width="600"><br>
+</body></html>
