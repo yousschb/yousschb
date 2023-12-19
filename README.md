@@ -4,16 +4,26 @@ In our project aimed at predicting the difficulty level of French texts, we eval
 
 Based on the results, we can observe that :
 
-- Logistic Regression showed moderate performance with a slight preference for recall over precision. This indicates that the model is slightly better at correctly identifying positive classes but at the cost of increased false positives.
+Logistic Regression
+- Challenges with Intermediate Levels: Logistic Regression showed particular difficulty in accurately predicting the intermediate levels A2, B1, and B2. This suggests a challenge in distinguishing between these nuanced levels of language proficiency.
+- Better at Extreme Levels: The model appears to perform relatively better at the extreme levels (beginner and advanced), but struggles with the gradations in between.
 
-- The kNN model exhibited lower performance, particularly in terms of recall and F1-score. This suggests that the model struggles to correctly identify positive classes, which could be due to an imbalance in class distribution or poor neighbor selection.
-
-- The Decision Tree showed the weakest performance among the tested models. With relatively low scores across all metrics, this might indicate overfitting to the training data or an inability to capture the complexity of the data.
-
-- Random Forests displayed slightly better performance than Logistic Regression and significantly better than kNN and Decision Tree. This model seems to offer a better balance between precision and recall, suggesting better generalization compared to the other models.
-
+kNN
+- Struggles with Specific Levels: The kNN model had notable difficulties, especially with levels B1 and C2. A significant observation is the model's tendency to overwhelmingly predict many instances as C1, including those that are actually C2, indicating a bias towards this particular level.
+- Misclassification Across the Board: There is a general trend of misclassification across various levels, with the model showing a lack of precision in distinguishing between the nuanced differences in language proficiency.
+  
+Decision Tree
+- Weakest Performance at Intermediate Levels: The Decision Tree exhibited its weakest performance with intermediate levels, showing a wide disparity. Many levels were predicted, but with a considerable number of errors, indicating a lack of consistency and reliability in the model's predictions.
+- Generalization Issues: The spread of errors across different levels suggests issues with generalization, possibly due to overfitting or an inability to capture the subtleties of language proficiency levels.
+  
+Random Forests
+- Highest Overall Performance: Random Forests demonstrated the highest overall performance among the models. However, it still showed notable errors, particularly in predicting levels A2 and B1.
+- Better Balance but Not Perfect: While this model offered a better balance in precision and recall compared to the others, it still faced challenges in accurately classifying certain levels, indicating room for improvement in distinguishing between closely related proficiency levels.
+  
 Conclusion :
 
-Considering all metrics, Random Forests appear to be the most effective model for this specific task, although the overall scores suggest there is still room for improvement. The relatively low performance of the models could be due to several factors, such as data quality, the need for more advanced preprocessing techniques, or the necessity to explore other models or more sophisticated neural network architectures.
+Considering all metrics and the insights from the confusion matrices, Random Forests appear to be the most effective model for this specific task of predicting language proficiency levels. However, the detailed analysis reveals that even the best-performing model has its challenges, particularly with certain intermediate levels like A2 and B1. This suggests that while Random Forests offer a better balance in precision and recall, there is still considerable room for improvement.
 
-It's also important to note that while accuracy is a useful metric, it should not be the only criterion for judgment, especially in cases where there is a significant class imbalance. Metrics such as the F1-score, which combines precision and recall, can offer a more balanced perspective on model performance.
+The relatively lower performance of the models, especially in distinguishing between intermediate levels, could be attributed to several factors. These include the complexity of the data, the need for more advanced preprocessing techniques, and possibly the requirement to explore other, more sophisticated neural network architectures that might capture the nuances of language proficiency more effectively.
+
+It's also crucial to consider that while accuracy is a valuable metric, it should not be the sole criterion for judgment. This is particularly important in scenarios where there might be a significant class imbalance. Metrics like the F1-score, which combines precision and recall, provide a more balanced perspective on model performance. They are particularly useful in highlighting how well a model can manage the trade-off between correctly identifying as many instances of a particular class as possible (recall) and ensuring that those identifications are accurate (precision).
