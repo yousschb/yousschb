@@ -98,7 +98,7 @@ elif option == 'Jeu de Prédiction de Niveau':
             st.write(st.session_state['current_phrase'])
             user_guess = st.radio("Quel est le niveau de cette phrase ?", ["", "A1", "A2", "B1", "B2", "C1", "C2"], index=0, key=str(st.session_state['phrase_count']))
 
-        if user_guess and user_guess != "":
+        if user_guess != "":
             predicted_level = predict_level(st.session_state['current_phrase'], tokenizer, model)
             st.session_state['responses'].append((user_guess, predicted_level))
             st.session_state['score'] += 1 if user_guess == predicted_level else 0
