@@ -96,7 +96,8 @@ elif option == 'Jeu de Prédiction de Niveau':
         if st.session_state['current_phrase'] is None:
             st.session_state['current_phrase'] = random.choice(phrases)
             st.write(st.session_state['current_phrase'])
-            user_guess = st.radio("Quel est le niveau de cette phrase ?", ["A1", "A2", "B1", "B2", "C1", "C2"], key=str(st.session_state['phrase_count']))
+            # Initialiser avec une option vide
+            user_guess = st.radio("Quel est le niveau de cette phrase ?", ["", "A1", "A2", "B1", "B2", "C1", "C2"], index=0, key=str(st.session_state['phrase_count']))
             st.session_state['user_guess'] = user_guess
 
         elif st.session_state['current_phrase']:
@@ -109,7 +110,8 @@ elif option == 'Jeu de Prédiction de Niveau':
             if st.session_state['phrase_count'] < 10:
                 st.session_state['current_phrase'] = random.choice(phrases)
                 st.write(st.session_state['current_phrase'])
-                user_guess = st.radio("Quel est le niveau de cette phrase ?", ["A1", "A2", "B1", "B2", "C1", "C2"], key=str(st.session_state['phrase_count']))
+                # Réinitialiser avec une option vide pour la nouvelle question
+                user_guess = st.radio("Quel est le niveau de cette phrase ?", ["", "A1", "A2", "B1", "B2", "C1", "C2"], index=0, key=str(st.session_state['phrase_count']))
                 st.session_state['user_guess'] = user_guess
 
     else:
