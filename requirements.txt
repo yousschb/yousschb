@@ -5,6 +5,4 @@ sacremoses
 sentencepiece
 torch
 gdown
-pandas
-numpy
 scikit-learn
