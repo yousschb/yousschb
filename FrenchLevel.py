@@ -108,9 +108,6 @@ elif option == 'Jeu de Prédiction de Niveau':
 
             if st.session_state['phrase_count'] < 10:
                 st.session_state['current_phrase'] = random.choice(phrases)
-                st.write(st.session_state['current_phrase'])
-                user_guess = st.radio("Quel est le niveau de cette phrase ?", ["A1", "A2", "B1", "B2", "C1", "C2"], key=str(st.session_state['phrase_count']))
-                st.session_state['user_guess'] = user_guess
 
     else:
         st.subheader(f"Votre score : {st.session_state['score']} / 10")
@@ -130,3 +127,5 @@ elif option == 'Jeu de Prédiction de Niveau':
             st.session_state['phrase_count'] = 0
             st.session_state['current_phrase'] = None
             st.session_state['responses'] = []
+
+
