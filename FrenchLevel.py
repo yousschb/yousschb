@@ -2,12 +2,12 @@ import streamlit as st
 import types
 from transformers import FlaubertTokenizer, TFFlaubertForSequenceClassification
 import tensorflow as tf
+import numpy as np
 
 # Custom hash function to bypass hashing of the load_model function
 def bypass_hashing(func):
     return 0
 
-# Function to load the FlauBERT model
 # Function to load the trained FlauBERT model
 @st.cache(allow_output_mutation=True, hash_funcs={types.FunctionType: bypass_hashing})
 def load_model():
@@ -35,15 +35,22 @@ model = load_model()
 
 # Streamlit interface
 st.title('French Text Difficulty Predictor')
+
+st.markdown("""
+This application predicts the difficulty level of a French text. 
+Enter a sentence and find out its level according to the Common European Framework of Reference for Languages.
+""")
+
 user_input = st.text_area("Enter a sentence in French", "")
 
 if st.button('Predict Difficulty'):
-    input_ids, attention_masks = encode_text(user_input, tokenizer)
-    predictions = model.predict([input_ids, attention_masks])
-    difficulty_level = np.argmax(predictions.logits, axis=1)[0]
+    with st.spinner('Analyzing the text...'):
+        input_ids, attention_masks = encode_text(user_input, tokenizer)
+        predictions = model.predict([input_ids, attention_masks])
+        difficulty_level = np.argmax(predictions.logits, axis=1)[0]
 
-    # Mapping the prediction to difficulty level
-    levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
-    predicted_level = levels[difficulty_level]
+        # Mapping the prediction to difficulty level
+        levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
+        predicted_level = levels[difficulty_level]
 
-    st.write(f"The predicted difficulty level is: {predicted_level}")
+        st.success(f"The predicted difficulty level is: {predicted_level}")
