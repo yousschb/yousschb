@@ -53,7 +53,7 @@ def encode_for_flaubert(sentences, max_length=128):
     input_ids = tf.concat(input_ids, 0)
     attention_masks = tf.concat(attention_masks, 0)
 
-    turn input_ids, attention_masks
+    return input_ids, attention_masks
 
 train_input_ids, train_attention_masks = encode_for_flaubert(X_train, max_length=128)
 test_input_ids, test_attention_masks = encode_for_flaubert(X_test, max_length=128)
