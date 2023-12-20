@@ -61,10 +61,8 @@ if 'phrase_count' not in st.session_state:
     st.session_state['phrase_count'] = 0
 if 'current_phrase' not in st.session_state:
     st.session_state['current_phrase'] = None
-if 'game_history' not in st.session_state:
-    st.session_state['game_history'] = []
-if 'user_guess' not in st.session_state:
-    st.session_state['user_guess'] = None
+if 'responses' not in st.session_state:
+    st.session_state['responses'] = []
     
 # Load the model
 model = load_model()
@@ -97,30 +95,21 @@ elif option == 'Jeu de Prédiction de Niveau':
     if st.session_state['phrase_count'] < 10:
         if st.session_state['current_phrase'] is None:
             st.session_state['current_phrase'] = random.choice(phrases)
+            st.write(st.session_state['current_phrase'])
+            st.radio("Quel est le niveau de cette phrase ?", ["A1", "A2", "B1", "B2", "C1", "C2"], key=str(st.session_state['phrase_count']))
 
-        st.write(st.session_state['current_phrase'])
-        user_guess = st.radio("Quel est le niveau de cette phrase ?", ["A1", "A2", "B1", "B2", "C1", "C2"], key=str(st.session_state['phrase_count']))
-
-        # Vérifie si l'utilisateur a sélectionné une réponse
-        if user_guess:
+        elif st.session_state['current_phrase']:
+            user_guess = st.session_state['user_guess']
             predicted_level = predict_level(st.session_state['current_phrase'], tokenizer, model)
-            if user_guess == predicted_level:
-                st.session_state['score'] += 1
-                st.success("Correct !")
-            else:
-                st.error(f"Incorrect. Le niveau prédit est : {predicted_level}")
-
-            # Préparation pour la prochaine phrase
+            st.session_state['responses'].append((user_guess, predicted_level))
+            st.session_state['score'] += 1 if user_guess == predicted_level else 0
             st.session_state['current_phrase'] = None
             st.session_state['phrase_count'] += 1
 
-            # Afficher la nouvelle phrase sans attendre que l'utilisateur appuie sur un bouton
-            if st.session_state['phrase_count'] < 10:
-                st.session_state['current_phrase'] = random.choice(phrases)
-                st.write(st.session_state['current_phrase'])
-                st.radio("Quel est le niveau de cette phrase ?", ["A1", "A2", "B1", "B2", "C1", "C2"], key=str(st.session_state['phrase_count']))
     else:
         st.subheader(f"Votre score : {st.session_state['score']} / 10")
+        for i, (user_guess, predicted_level) in enumerate(st.session_state['responses']):
+            st.write(f"Question {i+1}: Votre réponse: {user_guess}, Réponse correcte: {predicted_level}")
         if st.session_state['score'] <= 3:
             st.write("Vous pouvez mieux faire.")
         elif st.session_state['score'] <= 6:
@@ -134,4 +123,5 @@ elif option == 'Jeu de Prédiction de Niveau':
             st.session_state['score'] = 0
             st.session_state['phrase_count'] = 0
             st.session_state['current_phrase'] = None
+            st.session_state['responses'] = []
 
