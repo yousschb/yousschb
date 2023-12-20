@@ -2,7 +2,6 @@ import streamlit as st
 import types
 from transformers import FlaubertTokenizer, TFFlaubertForSequenceClassification
 import tensorflow as tf
-import numpy as np
 
 # Custom hash function to bypass hashing of the load_model function
 def bypass_hashing(func):
