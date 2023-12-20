@@ -12,14 +12,6 @@ from sklearn.model_selection import train_test_split
 # Charger les données
 train_data = pd.read_csv('training_data.csv')
 
-# Dupliquer les données une première fois
-train_data_duplicated_once = pd.concat([train_data, train_data])
-
-# Dupliquer les données une deuxième fois pour obtenir une multiplication par 4
-train_data_duplicated_twice = pd.concat([train_data_duplicated_once, train_data_duplicated_once])
-
-train_data = train_data_duplicated_twice
-
 X = train_data['sentence']
 y = train_data['difficulty']
 
@@ -73,7 +65,7 @@ model.fit(
     [train_input_ids, train_attention_masks],
     y_train,
     epochs=1,
-    batch_size=16,
+    batch_size=32,
     validation_data=([test_input_ids, test_attention_masks], y_test)
 )
 
