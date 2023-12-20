@@ -63,6 +63,8 @@ if 'current_phrase' not in st.session_state:
     st.session_state['current_phrase'] = None
 if 'game_history' not in st.session_state:
     st.session_state['game_history'] = []
+if 'user_guess' not in st.session_state:
+    st.session_state['user_guess'] = None
     
 # Load the model
 model = load_model()
@@ -95,20 +97,21 @@ elif option == 'Jeu de Prédiction de Niveau':
     if st.session_state['phrase_count'] < 10:
         if st.session_state['current_phrase'] is None:
             st.session_state['current_phrase'] = random.choice(phrases)
+            st.session_state['user_guess'] = None  # Réinitialiser la supposition de l'utilisateur
 
         st.write(st.session_state['current_phrase'])
-        user_guess = st.selectbox("Quel est le niveau de cette phrase ?", ["A1", "A2", "B1", "B2", "C1", "C2"])
+        st.session_state['user_guess'] = st.selectbox("Quel est le niveau de cette phrase ?", ["A1", "A2", "B1", "B2", "C1", "C2"], key=st.session_state['phrase_count'])
 
         if st.button("Valider"):
             predicted_level = predict_level(st.session_state['current_phrase'], tokenizer, model)
-            if user_guess == predicted_level:
+            if st.session_state['user_guess'] == predicted_level:
                 st.session_state['score'] += 1
                 correct = True
             else:
                 correct = False
 
             # Enregistrer l'historique du jeu
-            st.session_state['game_history'].append((st.session_state['current_phrase'], user_guess, predicted_level, correct))
+            st.session_state['game_history'].append((st.session_state['current_phrase'], st.session_state['user_guess'], predicted_level, correct))
             st.session_state['current_phrase'] = None
             st.session_state['phrase_count'] += 1
 
@@ -126,3 +129,4 @@ elif option == 'Jeu de Prédiction de Niveau':
             st.session_state['phrase_count'] = 0
             st.session_state['current_phrase'] = None
             st.session_state['game_history'] = []
+            st.session_state['user_guess'] = None
