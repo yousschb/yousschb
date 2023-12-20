@@ -9,11 +9,13 @@ def bypass_hashing(func):
     return 0
 
 # Function to load the FlauBERT model
+# Function to load the trained FlauBERT model
 @st.cache(allow_output_mutation=True, hash_funcs={types.FunctionType: bypass_hashing})
 def load_model():
-    model = TFFlaubertForSequenceClassification.from_pretrained('flaubert/flaubert_base_cased', num_labels=6, from_pt=True)
+    model_load_path = "/Users/mac/Desktop/KAGGLE_YC.ipynb"  # Update this path
+    model = TFFlaubertForSequenceClassification.from_pretrained(model_load_path, num_labels=6)
     return model
-
+    
 # Function to encode text for FlauBERT
 def encode_text(text, tokenizer, max_length=128):
     encoded_dict = tokenizer.encode_plus(
