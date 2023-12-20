@@ -54,6 +54,13 @@ def predict_level(phrase, tokenizer, model):
 # Load FlauBERT tokenizer
 tokenizer = FlaubertTokenizer.from_pretrained('flaubert/flaubert_base_cased')
 
+# Initialisation des variables de session pour le jeu
+if 'score' not in st.session_state:
+    st.session_state['score'] = 0
+if 'phrase_count' not in st.session_state:
+    st.session_state['phrase_count'] = 0
+if 'current_phrase' not in st.session_state:
+    st.session_state['current_phrase'] = None
 
 # Load the model
 model = load_model()
@@ -66,15 +73,6 @@ option = st.sidebar.selectbox(
     'Choisissez une option',
     ('Prédiction de Phrase', 'Jeu de Prédiction de Niveau')
 )
-# Initialisation des variables de session pour le jeu
-if 'score' not in st.session_state:
-    st.session_state['score'] = 0
-if 'phrase_count' not in st.session_state:
-    st.session_state['phrase_count'] = 0
-if 'current_phrase' not in st.session_state:
-    st.session_state['current_phrase'] = None
-if 'responses' not in st.session_state:
-    st.session_state['responses'] = []
     
 # Logique conditionnelle en fonction de l'option sélectionnée
 if option == 'Prédiction de Phrase':
@@ -93,26 +91,23 @@ elif option == 'Jeu de Prédiction de Niveau':
     st.subheader("Jeu de Prédiction de Niveau de Langue")
 
     if st.session_state['phrase_count'] < 10:
-        if st.session_state['current_phrase'] is None:
+        if st.session_state['current_phrase'] is None or st.button("Phrase Suivante"):
             st.session_state['current_phrase'] = random.choice(phrases)
-            st.write(st.session_state['current_phrase'])
-            user_guess = st.radio("Quel est le niveau de cette phrase ?", ["A1", "A2", "B1", "B2", "C1", "C2"], key=str(st.session_state['phrase_count']))
-            st.session_state['user_guess'] = user_guess
-
-        elif st.session_state['current_phrase']:
-            predicted_level = predict_level(st.session_state['current_phrase'], tokenizer, model)
-            st.session_state['responses'].append((st.session_state['user_guess'], predicted_level))
-            st.session_state['score'] += 1 if st.session_state['user_guess'] == predicted_level else 0
-            st.session_state['current_phrase'] = None
             st.session_state['phrase_count'] += 1
 
-            if st.session_state['phrase_count'] < 10:
-                st.session_state['current_phrase'] = random.choice(phrases)
+        st.write(st.session_state['current_phrase'])
+        user_guess = st.selectbox("Quel est le niveau de cette phrase ?", ["A1", "A2", "B1", "B2", "C1", "C2"])
+
+        if st.button("Vérifier"):
+            predicted_level = predict_level(st.session_state['current_phrase'], tokenizer, model)
+            if user_guess == predicted_level:
+                st.session_state['score'] += 1
+                st.success("Correct !")
+            else:
+                st.error(f"Incorrect. Le niveau prédit est : {predicted_level}")
 
     else:
         st.subheader(f"Votre score : {st.session_state['score']} / 10")
-        for i, (user_guess, predicted_level) in enumerate(st.session_state['responses']):
-            st.write(f"Question {i+1}: Votre réponse: {user_guess}, Réponse correcte: {predicted_level}")
         if st.session_state['score'] <= 3:
             st.write("Vous pouvez mieux faire.")
         elif st.session_state['score'] <= 6:
@@ -126,6 +121,4 @@ elif option == 'Jeu de Prédiction de Niveau':
             st.session_state['score'] = 0
             st.session_state['phrase_count'] = 0
             st.session_state['current_phrase'] = None
-            st.session_state['responses'] = []
-
 
