@@ -61,8 +61,8 @@ if 'phrase_count' not in st.session_state:
     st.session_state['phrase_count'] = 0
 if 'current_phrase' not in st.session_state:
     st.session_state['current_phrase'] = None
-if 'game_started' not in st.session_state:
-    st.session_state['game_started'] = False
+if 'game_history' not in st.session_state:
+    st.session_state['game_history'] = []
     
 # Load the model
 model = load_model()
@@ -93,33 +93,36 @@ elif option == 'Jeu de Prédiction de Niveau':
     st.subheader("Jeu de Prédiction de Niveau de Langue")
 
     if st.session_state['phrase_count'] < 10:
-        if st.session_state['current_phrase'] is None or st.button("Phrase Suivante"):
+        if st.session_state['current_phrase'] is None:
             st.session_state['current_phrase'] = random.choice(phrases)
-            st.session_state['phrase_count'] += 1
 
         st.write(st.session_state['current_phrase'])
         user_guess = st.selectbox("Quel est le niveau de cette phrase ?", ["A1", "A2", "B1", "B2", "C1", "C2"])
 
-        if st.button("Vérifier"):
+        if st.button("Valider"):
             predicted_level = predict_level(st.session_state['current_phrase'], tokenizer, model)
             if user_guess == predicted_level:
                 st.session_state['score'] += 1
-                st.success("Correct !")
+                correct = True
             else:
-                st.error(f"Incorrect. Le niveau prédit est : {predicted_level}")
+                correct = False
+
+            # Enregistrer l'historique du jeu
+            st.session_state['game_history'].append((st.session_state['current_phrase'], user_guess, predicted_level, correct))
+            st.session_state['current_phrase'] = None
+            st.session_state['phrase_count'] += 1
 
     else:
         st.subheader(f"Votre score : {st.session_state['score']} / 10")
-        if st.session_state['score'] <= 3:
-            st.write("Vous pouvez mieux faire.")
-        elif st.session_state['score'] <= 6:
-            st.write("Pas mal, continuez à vous exercer.")
-        elif st.session_state['score'] <= 9:
-            st.write("Très bien !")
-        else:
-            st.write("Vous êtes le Molière de ce jeu !")
+        # Afficher l'historique du jeu avec les corrections
+        for phrase, user_guess, predicted_level, correct in st.session_state['game_history']:
+            if correct:
+                st.markdown(f"**{phrase}** - Correct !")
+            else:
+                st.markdown(f"**{phrase}** - Votre réponse : {user_guess}, Niveau prédit : {predicted_level}")
 
         if st.button("Recommencer le Jeu"):
             st.session_state['score'] = 0
             st.session_state['phrase_count'] = 0
             st.session_state['current_phrase'] = None
+            st.session_state['game_history'] = []
