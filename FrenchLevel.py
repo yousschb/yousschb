@@ -54,13 +54,13 @@ def predict_level(phrase, tokenizer, model):
 # Load FlauBERT tokenizer
 tokenizer = FlaubertTokenizer.from_pretrained('flaubert/flaubert_base_cased')
 
-
-
 # Load the model
 model = load_model()
 
 # Streamlit interface
 st.title('French Text Difficulty Application')
+
+
 
 # Menu de sélection dans la barre latérale
 option = st.sidebar.selectbox(
