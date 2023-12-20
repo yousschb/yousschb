@@ -107,7 +107,9 @@ elif option == 'Jeu de Prédiction de Niveau':
             correct = (st.session_state['user_guess'] == predicted_level)
             st.session_state['game_history'].append((st.session_state['current_phrase'], st.session_state['user_guess'], predicted_level, correct))
             st.session_state['score'] += int(correct)
-            st.session_state['current_phrase'] = None
+
+            # Charger immédiatement la prochaine phrase
+            st.session_state['current_phrase'] = random.choice(phrases)
             st.session_state['phrase_count'] += 1
 
     else:
