@@ -1,18 +1,12 @@
 import streamlit as st
-import types
 import numpy as np
 import pandas as pd
-import re
 import numpy as np
 import tensorflow as tf
 from sklearn.preprocessing import LabelEncoder
 from transformers import FlaubertTokenizer, TFFlaubertModel, TFFlaubertForSequenceClassification
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
-from sklearn.metrics import confusion_matrix, precision_recall_fscore_support, accuracy_score
-import seaborn as sns
-import matplotlib.pyplot as plt
-import random
 from sklearn.model_selection import train_test_split
 
 # Charger les données
@@ -37,9 +31,9 @@ y_encoded = label_encoder.fit_transform(y)
 X_train, X_test, y_train, y_test = train_test_split(X, y_encoded, test_size=0.2, random_state=42)
 
 # Initialiser le tokenizer FlauBERT
-tokenizer = FlaubertTokenizer.from_pretrained('flaubert/flaubert_base_cased')
+tokenizer = FlaubertTokenizer.from_ptrained('flaubert/flaubert_base_cased')
 
-# Préparer les données pour FlauBERT
+# Ppar les données pour FlauBERT
 def encode_for_flaubert(sentences, max_length=128):
     input_ids = []
     attention_masks = []
@@ -50,8 +44,8 @@ def encode_for_flaubert(sentences, max_length=128):
             add_special_tokens=True,
             max_length=max_length,
             pad_to_max_length=True,
-            return_attention_mask=True,
-            return_tensors='tf',
+            turn_attention_mask=True,
+            turn_tensors='tf',
         )
         input_ids.append(encoded_dict['input_ids'])
         attention_masks.append(encoded_dict['attention_mask'])
@@ -59,14 +53,14 @@ def encode_for_flaubert(sentences, max_length=128):
     input_ids = tf.concat(input_ids, 0)
     attention_masks = tf.concat(attention_masks, 0)
 
-    return input_ids, attention_masks
+    turn input_ids, attention_masks
 
 train_input_ids, train_attention_masks = encode_for_flaubert(X_train, max_length=128)
 test_input_ids, test_attention_masks = encode_for_flaubert(X_test, max_length=128)
 
 
-# Charger le modèle FlauBERT pré-entraîné pour la classification de séquence
-model = TFFlaubertForSequenceClassification.from_pretrained('flaubert/flaubert_base_cased', num_labels=len(label_encoder.classes_), from_pt=True)
+# Charger le modèle FlauBERT p-entraîné pour la classification de séquence
+model = TFFlaubertForSequenceClassification.from_ptrained('flaubert/flaubert_base_cased', num_labels=len(label_encoder.classes_), from_pt=True)
 
 # Compiler le modèle
 optimizer = Adam(learning_rate=5e-5)
@@ -86,7 +80,7 @@ model.fit(
 
 
 
-# Streamlit interface
+# Stamlit interface
 st.title('French Text Difficulty Predictor')
 user_input = st.text_area("Enter a sentence in French", "")
 
