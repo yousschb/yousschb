@@ -10,7 +10,7 @@ from tensorflow.keras.optimizers import Adam
 from sklearn.model_selection import train_test_split
 
 # Charger les données
-train_data = pd.read_csv('/kaggle/input/ouchy-data/training_data.csv')
+train_data = pd.read_csv('training_data.csv')
 
 # Dupliquer les données une première fois
 train_data_duplicated_once = pd.concat([train_data, train_data])
