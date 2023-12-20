@@ -1,5 +1,6 @@
 import streamlit as st
 import types
+import random
 from transformers import FlaubertTokenizer, TFFlaubertForSequenceClassification
 import tensorflow as tf
 import numpy as np
@@ -13,7 +14,7 @@ def bypass_hashing(func):
 def load_model():
     model = TFFlaubertForSequenceClassification.from_pretrained('flaubert/flaubert_base_cased', num_labels=6, from_pt=True)
     return model
-    
+
 # Function to encode text for FlauBERT
 def encode_text(text, tokenizer, max_length=128):
     encoded_dict = tokenizer.encode_plus(
@@ -33,23 +34,36 @@ tokenizer = FlaubertTokenizer.from_pretrained('flaubert/flaubert_base_cased')
 model = load_model()
 
 # Streamlit interface
-st.title('French Text Difficulty Predictor')
+st.title('French Text Difficulty Application')
 
-st.markdown("""
-This application predicts the difficulty level of a French text. 
-Enter a sentence and find out its level according to the Common European Framework of Reference for Languages.
-""")
+# Menu de sélection dans la barre latérale
+option = st.sidebar.selectbox(
+    'Choisissez une option',
+    ('Prédiction de Phrase', 'Jeu de Prédiction de Niveau')
+)
 
-user_input = st.text_area("Enter a sentence in French", "")
+# Logique conditionnelle en fonction de l'option sélectionnée
+if option == 'Prédiction de Phrase':
+    st.subheader("Prédiction de Niveau de Difficulté d'une Phrase")
+    user_input = st.text_area("Entrez une phrase en français", "")
+    if st.button('Prédire le Niveau'):
+        with st.spinner('Analyse en cours...'):
+            input_ids, attention_masks = encode_text(user_input, tokenizer)
+            predictions = model.predict([input_ids, attention_masks])
+            difficulty_level = np.argmax(predictions.logits, axis=1)[0]
+            levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
+            predicted_level = levels[difficulty_level]
+            st.success(f"Le niveau de difficulté prédit est : {predicted_level}")
 
-if st.button('Predict Difficulty'):
-    with st.spinner('Analyzing the text...'):
-        input_ids, attention_masks = encode_text(user_input, tokenizer)
-        predictions = model.predict([input_ids, attention_masks])
-        difficulty_level = np.argmax(predictions.logits, axis=1)[0]
-
-        # Mapping the prediction to difficulty level
-        levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
-        predicted_level = levels[difficulty_level]
-
-        st.success(f"The predicted difficulty level is: {predicted_level}")
+elif option == 'Jeu de Prédiction de Niveau':
+    st.subheader("Jeu de Prédiction de Niveau de Langue")
+    if st.button("Commencer le Jeu"):
+        phrase = random.choice(phrases)
+        st.write(phrase)
+        user_guess = st.selectbox("Quel est le niveau de cette phrase ?", ["A1", "A2", "B1", "B2", "C1", "C2"])
+        if st.button("Vérifier"):
+            predicted_level = predict_level(phrase, tokenizer, model)
+            if user_guess == predicted_level:
+                st.success("Correct !")
+            else:
+                st.error(f"Incorrect. Le niveau prédit est : {predicted_level}")
