@@ -60,7 +60,7 @@ test_input_ids, test_attention_masks = encode_for_flaubert(X_test, max_length=12
 
 
 # Charger le modèle FlauBERT p-entraîné pour la classification de séquence
-model = TFFlaubertForSequenceClassification.from_ptrained('flaubert/flaubert_base_cased', num_labels=len(label_encoder.classes_), from_pt=True)
+model = TFFlaubertForSequenceClassification.from_pretrained('flaubert/flaubert_base_cased', num_labels=len(label_encoder.classes_), from_pt=True)
 
 # Compiler le modèle
 optimizer = Adam(learning_rate=5e-5)
