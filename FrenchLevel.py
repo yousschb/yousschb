@@ -54,16 +54,7 @@ def predict_level(phrase, tokenizer, model):
 # Load FlauBERT tokenizer
 tokenizer = FlaubertTokenizer.from_pretrained('flaubert/flaubert_base_cased')
 
-# Initialisation des variables de session pour le jeu
-if 'score' not in st.session_state:
-    st.session_state['score'] = 0
-if 'phrase_count' not in st.session_state:
-    st.session_state['phrase_count'] = 0
-if 'current_phrase' not in st.session_state:
-    st.session_state['current_phrase'] = None
-if 'responses' not in st.session_state:
-    st.session_state['responses'] = []
-    
+
 # Load the model
 model = load_model()
 
@@ -75,7 +66,16 @@ option = st.sidebar.selectbox(
     'Choisissez une option',
     ('Prédiction de Phrase', 'Jeu de Prédiction de Niveau')
 )
-
+# Initialisation des variables de session pour le jeu
+if 'score' not in st.session_state:
+    st.session_state['score'] = 0
+if 'phrase_count' not in st.session_state:
+    st.session_state['phrase_count'] = 0
+if 'current_phrase' not in st.session_state:
+    st.session_state['current_phrase'] = None
+if 'responses' not in st.session_state:
+    st.session_state['responses'] = []
+    
 # Logique conditionnelle en fonction de l'option sélectionnée
 if option == 'Prédiction de Phrase':
     st.subheader("Prédiction de Niveau de Difficulté d'une Phrase")
