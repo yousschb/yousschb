@@ -6,3 +6,4 @@ sentencepiece
 torch
 gdown
 scikit-learn
+numpy
