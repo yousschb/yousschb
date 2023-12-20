@@ -55,6 +55,10 @@ def predict_level(phrase, tokenizer, model):
 tokenizer = FlaubertTokenizer.from_pretrained('flaubert/flaubert_base_cased')
 
 # Initialisation des variables de session pour le jeu
+if 'score' not in st.session_state:
+    st.session_state['score'] = 0
+if 'phrase_count' not in st.session_state:
+    st.session_state['phrase_count'] = 0
 if 'current_phrase' not in st.session_state:
     st.session_state['current_phrase'] = None
 if 'game_started' not in st.session_state:
@@ -87,18 +91,35 @@ if option == 'Prédiction de Phrase':
 
 elif option == 'Jeu de Prédiction de Niveau':
     st.subheader("Jeu de Prédiction de Niveau de Langue")
-    
-    if st.button("Commencer le Jeu"):
-        st.session_state['current_phrase'] = random.choice(phrases)
-        st.session_state['game_started'] = True
 
-    if st.session_state['game_started']:
+    if st.session_state['phrase_count'] < 10:
+        if st.session_state['current_phrase'] is None or st.button("Phrase Suivante"):
+            st.session_state['current_phrase'] = random.choice(phrases)
+            st.session_state['phrase_count'] += 1
+
         st.write(st.session_state['current_phrase'])
         user_guess = st.selectbox("Quel est le niveau de cette phrase ?", ["A1", "A2", "B1", "B2", "C1", "C2"])
 
         if st.button("Vérifier"):
             predicted_level = predict_level(st.session_state['current_phrase'], tokenizer, model)
             if user_guess == predicted_level:
+                st.session_state['score'] += 1
                 st.success("Correct !")
             else:
                 st.error(f"Incorrect. Le niveau prédit est : {predicted_level}")
+
+    else:
+        st.subheader(f"Votre score : {st.session_state['score']} / 10")
+        if st.session_state['score'] <= 3:
+            st.write("Vous pouvez mieux faire.")
+        elif st.session_state['score'] <= 6:
+            st.write("Pas mal, continuez à vous exercer.")
+        elif st.session_state['score'] <= 9:
+            st.write("Très bien !")
+        else:
+            st.write("Vous êtes le Molière de ce jeu !")
+
+        if st.button("Recommencer le Jeu"):
+            st.session_state['score'] = 0
+            st.session_state['phrase_count'] = 0
+            st.session_state['current_phrase'] = None
