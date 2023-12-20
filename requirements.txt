@@ -4,3 +4,5 @@ tensorflow
 sacremoses
 sentencepiece
 torch
+gdown
+
