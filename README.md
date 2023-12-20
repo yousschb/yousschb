@@ -1,6 +1,10 @@
 Analysis of Machine Learning Model Performances on detecting the difficulty level of French texts
 
+-> link to my streamlit app : https://frenchlevel.streamlit.app/ <-
+
 -> link to the ZIP of my model : https://drive.google.com/drive/folders/13nHhd9XMaEtBwpKItvdylx9IkeI11De8?usp=share_link <-
+
+-> link to my YouTube Video : <-
 
 I) Testing Logistic Regression, kNN, Decision Tree and Random Forests models :
 
