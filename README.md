@@ -109,18 +109,25 @@ Creating the Streamlit app for the French text difficulty prediction project was
 
 From GitHub to Streamlit App
 
-GitHub Repository Setup: The first step involved setting up a GitHub repository. This repository housed all the necessary code and files for the Streamlit app. Organizing the code in GitHub not only provided version control but also made it easier to manage and share the project.
+GitHub Repository Setup: 
+
+The first step involved setting up a GitHub repository. This repository housed all the necessary code and files for the Streamlit app. Organizing the code in GitHub not only provided version control but also made it easier to manage and share the project.
 Running the App on Streamlit: With the code in GitHub, the next step was to run the app on Streamlit. Streamlit offers a seamless way to turn Python scripts into shareable web apps. Seeing the app work for the first time was a fantastic moment. It was a culmination of the hard work and a testament to the power of Streamlit in bringing data science projects to a wider audience.
+
 Challenges with Model Integration
+
 The major challenge came when trying to integrate the trained FlauBERT model into the app. The model, due to its size and complexity, was too heavy to be directly uploaded to Streamlit. The model file was stored on Google Drive (link to the model), but integrating it into the app proved to be difficult. Various methods were tried to download and incorporate the model into the Streamlit app, but the size of the model presented a persistent obstacle.
 
 Implementing a Basic Version with FlauBERT
+
 Given the challenges with the full model, a decision was made to implement a basic version of the app using TFFlaubertForSequenceClassification. This allowed the app to be functional and accessible, albeit with a simpler version of the model. The basic version still offered valuable insights and demonstrated the core functionality of predicting text difficulty levels.
 
 Updating the App with an Interactive Game
+
 To enhance user engagement and provide a more interactive experience, I updated the app with a language prediction game. This game allowed users to guess the difficulty level of various French sentences, with the app providing feedback on their guesses. This addition not only made the app more engaging but also served as an educational tool for users to test and improve their understanding of French language complexity.
 
 Conclusion
+
 The journey of creating and refining the Streamlit app was a blend of technical challenges and creative problem-solving. Despite the hurdles in integrating the full FlauBERT model, the app successfully achieved its goal of providing an interactive platform for French text difficulty prediction. The experience was a testament to the adaptability required in data science projects and the innovative solutions that can emerge when faced with constraints.
 
 
