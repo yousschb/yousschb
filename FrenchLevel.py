@@ -4,6 +4,18 @@ import random
 from transformers import FlaubertTokenizer, TFFlaubertForSequenceClassification
 import tensorflow as tf
 import numpy as np
+import pandas as pd
+
+# Fonction pour charger les phrases du fichier CSV
+def load_phrases():
+    try:
+        df = pd.read_csv('unlabelled_test_data.csv')
+        return df['sentence'].tolist()
+    except FileNotFoundError:
+        st.error("Le fichier 'unlabelled_test_data.csv' n'a pas été trouvé.")
+        return []
+
+phrases = load_phrases()
 
 # Custom hash function to bypass hashing of the load_model function
 def bypass_hashing(func):
@@ -57,13 +69,16 @@ if option == 'Prédiction de Phrase':
 
 elif option == 'Jeu de Prédiction de Niveau':
     st.subheader("Jeu de Prédiction de Niveau de Langue")
-    if st.button("Commencer le Jeu"):
-        phrase = random.choice(phrases)
-        st.write(phrase)
-        user_guess = st.selectbox("Quel est le niveau de cette phrase ?", ["A1", "A2", "B1", "B2", "C1", "C2"])
-        if st.button("Vérifier"):
-            predicted_level = predict_level(phrase, tokenizer, model)
-            if user_guess == predicted_level:
-                st.success("Correct !")
-            else:
-                st.error(f"Incorrect. Le niveau prédit est : {predicted_level}")
+    if phrases:  # Vérifiez si la liste des phrases n'est pas vide
+        if st.button("Commencer le Jeu"):
+            phrase = random.choice(phrases)
+            st.write(phrase)
+            user_guess = st.selectbox("Quel est le niveau de cette phrase ?", ["A1", "A2", "B1", "B2", "C1", "C2"])
+            if st.button("Vérifier"):
+                predicted_level = predict_level(phrase, tokenizer, model)
+                if user_guess == predicted_level:
+                    st.success("Correct !")
+                else:
+                    st.error(f"Incorrect. Le niveau prédit est : {predicted_level}")
+    else:
+        st.write("Chargement des phrases en cours ou fichier non disponible.")
