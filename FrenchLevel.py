@@ -97,34 +97,30 @@ elif option == 'Jeu de Prédiction de Niveau':
     if st.session_state['phrase_count'] < 10:
         if st.session_state['current_phrase'] is None:
             st.session_state['current_phrase'] = random.choice(phrases)
+            st.session_state['user_guess'] = None
 
         st.write(st.session_state['current_phrase'])
         user_guess = st.radio("Quel est le niveau de cette phrase ?", ["A1", "A2", "B1", "B2", "C1", "C2"], key=str(st.session_state['phrase_count']))
 
-        # Déclencher la mise à jour dès que l'utilisateur fait un choix
-        if user_guess:
+        if user_guess and not st.session_state['user_guess']:
+            st.session_state['user_guess'] = user_guess
+
+        if st.button("Valider"):
             predicted_level = predict_level(st.session_state['current_phrase'], tokenizer, model)
-            correct = (user_guess == predicted_level)
-            st.session_state['game_history'].append((st.session_state['current_phrase'], user_guess, predicted_level, correct))
+            correct = (st.session_state['user_guess'] == predicted_level)
+            st.session_state['game_history'].append((st.session_state['current_phrase'], st.session_state['user_guess'], predicted_level, correct))
             st.session_state['score'] += int(correct)
 
             # Préparation pour la prochaine phrase
             st.session_state['current_phrase'] = None
             st.session_state['phrase_count'] += 1
-
-            # Recharger la page pour afficher la nouvelle phrase
-            st.experimental_rerun()
+            st.session_state['user_guess'] = None
 
     else:
         st.subheader(f"Votre score : {st.session_state['score']} / 10")
         for phrase, user_guess, predicted_level, correct in st.session_state['game_history']:
             color = "green" if correct else "red"
-            st.markdown(f"**{phrase}** - <span style='color: {color}'>Votre réponse : {user_guess}, Niveau prédit : {predicted_level}</span>", unsafe_allow_html=True)
+            st.markdown(f"**{phrase}** - <span style='color: {color}'>Votre réponse : {user_guess}, Niveau prédit
 
-        if st.button("Recommencer le Jeu"):
-            st.session_state['score'] = 0
-            st.session_state['phrase_count'] = 0
-            st.session_state['current_phrase'] = None
-            st.session_state['game_history'] = []
 
             st.session_state['game_history'] = []
