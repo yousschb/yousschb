@@ -31,7 +31,7 @@ y_encoded = label_encoder.fit_transform(y)
 X_train, X_test, y_train, y_test = train_test_split(X, y_encoded, test_size=0.2, random_state=42)
 
 # Initialiser le tokenizer FlauBERT
-tokenizer = FlaubertTokenizer.from_ptrained('flaubert/flaubert_base_cased')
+tokenizer = FlaubertTokenizer.from_pretrained('flaubert/flaubert_base_cased')
 
 # Ppar les données pour FlauBERT
 def encode_for_flaubert(sentences, max_length=128):
