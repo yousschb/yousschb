@@ -3,4 +3,4 @@ transformers
 tensorflow
 sacremoses
 sentencepiece
-torch-cpu
+torch
