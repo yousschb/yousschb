@@ -42,6 +42,12 @@ def encode_text(text, tokenizer, max_length=128):
 # Load FlauBERT tokenizer
 tokenizer = FlaubertTokenizer.from_pretrained('flaubert/flaubert_base_cased')
 
+# Initialisation des variables de session pour le jeu
+if 'current_phrase' not in st.session_state:
+    st.session_state['current_phrase'] = None
+if 'game_started' not in st.session_state:
+    st.session_state['game_started'] = False
+    
 # Load the model
 model = load_model()
 
@@ -69,16 +75,18 @@ if option == 'Prédiction de Phrase':
 
 elif option == 'Jeu de Prédiction de Niveau':
     st.subheader("Jeu de Prédiction de Niveau de Langue")
-    if phrases:  # Vérifiez si la liste des phrases n'est pas vide
-        if st.button("Commencer le Jeu"):
-            phrase = random.choice(phrases)
-            st.write(phrase)
-            user_guess = st.selectbox("Quel est le niveau de cette phrase ?", ["A1", "A2", "B1", "B2", "C1", "C2"])
-            if st.button("Vérifier"):
-                predicted_level = predict_level(phrase, tokenizer, model)
-                if user_guess == predicted_level:
-                    st.success("Correct !")
-                else:
-                    st.error(f"Incorrect. Le niveau prédit est : {predicted_level}")
-    else:
-        st.write("Chargement des phrases en cours ou fichier non disponible.")
+    
+    if st.button("Commencer le Jeu"):
+        st.session_state['current_phrase'] = random.choice(phrases)
+        st.session_state['game_started'] = True
+
+    if st.session_state['game_started']:
+        st.write(st.session_state['current_phrase'])
+        user_guess = st.selectbox("Quel est le niveau de cette phrase ?", ["A1", "A2", "B1", "B2", "C1", "C2"])
+
+        if st.button("Vérifier"):
+            predicted_level = predict_level(st.session_state['current_phrase'], tokenizer, model)
+            if user_guess == predicted_level:
+                st.success("Correct !")
+            else:
+                st.error(f"Incorrect. Le niveau prédit est : {predicted_level}")
