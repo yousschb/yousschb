@@ -1,10 +1,3 @@
-!pip install streamlit
-!pip install transformers
-!pip install tensorflow
-!pip install sacremoses
-!pip install sentencepiece
-
-
 import streamlit as st
 import types
 from transformers import FlaubertTokenizer, TFFlaubertForSequenceClassification
