@@ -99,9 +99,10 @@ elif option == 'Jeu de Prédiction de Niveau':
             st.session_state['current_phrase'] = random.choice(phrases)
 
         st.write(st.session_state['current_phrase'])
-        user_guess = st.selectbox("Quel est le niveau de cette phrase ?", ["A1", "A2", "B1", "B2", "C1", "C2"], key=str(st.session_state['phrase_count']))
+        user_guess = st.radio("Quel est le niveau de cette phrase ?", ["A1", "A2", "B1", "B2", "C1", "C2"], key=str(st.session_state['phrase_count']))
 
-        if st.button("Valider"):
+        # Vérifie si l'utilisateur a sélectionné une réponse
+        if user_guess:
             predicted_level = predict_level(st.session_state['current_phrase'], tokenizer, model)
             if user_guess == predicted_level:
                 st.session_state['score'] += 1
@@ -113,6 +114,11 @@ elif option == 'Jeu de Prédiction de Niveau':
             st.session_state['current_phrase'] = None
             st.session_state['phrase_count'] += 1
 
+            # Afficher la nouvelle phrase sans attendre que l'utilisateur appuie sur un bouton
+            if st.session_state['phrase_count'] < 10:
+                st.session_state['current_phrase'] = random.choice(phrases)
+                st.write(st.session_state['current_phrase'])
+                st.radio("Quel est le niveau de cette phrase ?", ["A1", "A2", "B1", "B2", "C1", "C2"], key=str(st.session_state['phrase_count']))
     else:
         st.subheader(f"Votre score : {st.session_state['score']} / 10")
         if st.session_state['score'] <= 3:
@@ -128,6 +134,4 @@ elif option == 'Jeu de Prédiction de Niveau':
             st.session_state['score'] = 0
             st.session_state['phrase_count'] = 0
             st.session_state['current_phrase'] = None
-
-
 
