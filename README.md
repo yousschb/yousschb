@@ -56,3 +56,48 @@ The errors in prediction are generally close, with misclassifications typically 
 Conclusion :
 
 The FlauBERT model demonstrates robust performance in language proficiency classification, with its errors tending to be minor and within adjacent proficiency levels. This indicates a strong understanding of the French language nuances, though there's room for improvement in distinguishing between closely related proficiency levels.
+
+III) Attempts to Improve the Code for French Text Difficulty Prediction
+
+In my project aimed at predicting the difficulty level of French texts, I undertook a series of steps to refine and improve the model's performance. Here's an overview of the key stages in this process:
+
+1. Initial Testing with DistilBERT Multi-Lingual Model
+Initially, I employed the DistilBERT model in its multi-lingual variant. DistilBERT is known for its efficiency and effectiveness in natural language processing tasks, offering a lighter and faster alternative to the full-sized BERT models. The multi-lingual version was chosen for its broad language coverage, including French.
+
+2. Implementing Cross-Validation and Optimal Model Selection
+To enhance the model's robustness and generalizability, I integrated a 5-fold cross-validation technique. This approach helped in assessing the model's performance across different data segments. Additionally, I focused on selecting the best-performing model configuration from these cross-validation runs, aiming to find the most effective model settings.
+
+3. Transition to CamemBERT for French Language Focus
+Confronting issues of overfitting, I shifted to using CamemBERT, a model specifically trained on French language data. This decision was based on the hypothesis that a language-specific model like CamemBERT would be more adept at capturing the intricacies and nuances of the French language, compared to a multi-lingual model.
+
+4. Advanced Strategies to Combat Overfitting
+To further tackle the overfitting challenge, I employed more sophisticated cross-validation methods, coupled with early stopping mechanisms to prevent the model from excessively learning from the training data. I also introduced batch normalization to stabilize the learning process. Adjusting the learning rate was another critical step, fine-tuning the training dynamics to optimize the model's performance.
+
+5. Data Cleaning and Stop Word Removal
+In an effort to streamline the dataset, I embarked on a data cleaning process. This involved removing stop words and unnecessary characters. The rationale behind this was to reduce noise in the data and focus the model's learning on more relevant aspects of the text. However, this approach did not yield the expected results. I realized that this method of data cleaning was counterproductive, as it led to the loss of crucial contextual information. The removal of stop words and certain characters inadvertently stripped the texts of elements that were significant for accurately determining their difficulty levels.
+
+6. Experimenting with data augmentation through paraphrasing
+Seeking to enhance the dataset, I explored data augmentation by paraphrasing the sentences. This involved translating the French sentences into English and then back into French, using a translation tool (TextBlob). The idea was to expand the dataset with variations of the original sentences, thereby providing the model with a richer set of training data. However, this approach had an unintended consequence. The paraphrasing process altered the complexity of the sentences, sometimes simplifying or complicating them in ways that did not accurately reflect their original difficulty levels.
+
+7. Discovery of FlauBERT and its precision
+As I delved deeper into the BERT library, my journey led me to a pivotal discovery: FlauBERT. This model, specifically designed for the French language, stood out for its remarkable precision in handling tasks related to French text analysis. FlauBERT, a variant of the well-known BERT model but fine-tuned for French, offered a level of specificity and accuracy that was not attainable with the multi-lingual models I had previously used.
+
+8. Switching to a french-specific model
+Realizing the potential of a language-specific approach, I decided to pivot from the multi-lingual model to using FlauBERT, which was exclusively trained on French data. This shift was a game-changer. The French-specific model was inherently more adept at understanding the nuances and complexities of the French language, leading to significantly improved predictions in text difficulty levels.
+
+9. Employing TFFlaubertModel and TFFlaubertForSequenceClassification
+To fully harness the capabilities of FlauBERT, I utilized TFFlaubertModel and TFFlaubertForSequenceClassification. These TensorFlow implementations of FlauBERT allowed me to leverage the model's strengths in a more flexible and efficient manner. TFFlaubertModel provided the foundational architecture, capturing the intricacies of French syntax and semantics, while TFFlaubertForSequenceClassification added a layer specifically tailored for classifying the difficulty levels of French texts.
+
+10. Refinement and results
+With these tools at my disposal, I was able to fine-tune the model to a high degree of accuracy. The combination of FlauBERT's language-specific focus and the tailored classification layer led to a model that not only understood the subtleties of French text but also accurately gauged its complexity relative to language learners' proficiency levels. The results were promising, showing a marked improvement over my initial attempts with multi-lingual models. This journey through various models and strategies underscored the importance of choosing the right tools and approaches for specific language processing tasks, especially when dealing with the intricacies of language learning and proficiency assessment.
+
+11. Final Adjustments and Achieving Optimal Results
+
+In the final stage of refining my model, a crucial breakthrough came from adjusting key parameters, specifically the number of epochs and the batch size. By carefully tuning these parameters, I was able to significantly enhance the model's performance.
+
+Adjusting the number of epochs allowed the model to learn from the data more thoroughly without overfitting. Finding the right balance was key; too few epochs meant underfitting, while too many led to the model picking up too much noise from the training data. Similarly, tweaking the batch size helped in managing the computational load and the granularity of the learning process. A smaller batch size often led to more stable and reliable gradient updates, but required more iterations, whereas a larger batch size provided faster computations but with less stable updates.
+
+These adjustments proved to be highly effective. The model's accuracy improved remarkably, achieving scores of 0.598 and 0.599, a significant leap from the initial baseline of 0.540 with my basic models. This improvement underscored the importance of not only choosing the right model and approach but also fine-tuning the training process to suit the specific characteristics of the task at hand. It was a testament to the nuanced nature of machine learning, where small changes in parameters can lead to substantial improvements in performance.
+
+IV) Streamlit App
+
