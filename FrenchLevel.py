@@ -8,11 +8,10 @@ import numpy as np
 def bypass_hashing(func):
     return 0
 
-# Function to load the trained FlauBERT model
+# Function to load the FlauBERT model
 @st.cache(allow_output_mutation=True, hash_funcs={types.FunctionType: bypass_hashing})
 def load_model():
-    model_load_path = "/Users/mac/Desktop/my_flauBERT_model" 
-    model = TFFlaubertForSequenceClassification.from_pretrained(model_load_path, num_labels=6)
+    model = TFFlaubertForSequenceClassification.from_pretrained('flaubert/flaubert_base_cased', num_labels=6, from_pt=True)
     return model
     
 # Function to encode text for FlauBERT
