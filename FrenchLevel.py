@@ -39,6 +39,18 @@ def encode_text(text, tokenizer, max_length=128):
     )
     return encoded_dict['input_ids'], encoded_dict['attention_mask']
 
+def predict_level(phrase, tokenizer, model):
+    # Préparation de la phrase pour le modèle
+    input_ids, attention_masks = encode_text(phrase, tokenizer)
+    
+    # Prédiction du niveau de difficulté
+    predictions = model.predict([input_ids, attention_masks])
+    difficulty_level = np.argmax(predictions.logits, axis=1)[0]
+
+    # Mapping du niveau prédit à son label correspondant
+    levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
+    return levels[difficulty_level]
+
 # Load FlauBERT tokenizer
 tokenizer = FlaubertTokenizer.from_pretrained('flaubert/flaubert_base_cased')
 
