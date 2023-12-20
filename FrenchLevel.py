@@ -12,7 +12,7 @@ def bypass_hashing(func):
 # Function to load the trained FlauBERT model
 @st.cache(allow_output_mutation=True, hash_funcs={types.FunctionType: bypass_hashing})
 def load_model():
-    model_load_path = "/Users/mac/Desktop/KAGGLE_YC.ipynb"  # Update this path
+    model_load_path = "/Users/mac/Desktop/my_flauBERT_model" 
     model = TFFlaubertForSequenceClassification.from_pretrained(model_load_path, num_labels=6)
     return model
     
