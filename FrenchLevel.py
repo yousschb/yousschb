@@ -74,6 +74,7 @@ if 'phrase_count' not in st.session_state:
     st.session_state['phrase_count'] = 0
 if 'current_phrase' not in st.session_state:
     st.session_state['current_phrase'] = None   
+    
 # Logique conditionnelle en fonction de l'option sélectionnée
 if option == 'Prédiction de Phrase':
     st.subheader("Prédiction de Niveau de Difficulté d'une Phrase")
