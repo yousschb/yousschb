@@ -4,7 +4,7 @@ Analysis of Machine Learning Model Performances on detecting the difficulty leve
 
 -> link to the ZIP of my model : https://drive.google.com/drive/folders/13nHhd9XMaEtBwpKItvdylx9IkeI11De8?usp=share_link <-
 
--> link to my YouTube Video : <-
+-> link to my YouTube Video : https://youtu.be/m_5Dr0jkkGY <-
 
 I) Testing Logistic Regression, kNN, Decision Tree and Random Forests models :
 
